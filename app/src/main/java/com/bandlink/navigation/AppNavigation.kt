@@ -5,15 +5,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bandlink.screens.*
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun AppNavigation() {
 
     val navController = rememberNavController()
 
+    val startDestination =
+        if (FirebaseAuth.getInstance().currentUser != null)
+            "home"
+        else
+            "login"
+
     NavHost(
         navController = navController,
-        startDestination = "login"
+        startDestination = startDestination
     ) {
 
         composable("login") {
