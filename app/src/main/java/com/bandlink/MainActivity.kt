@@ -16,6 +16,7 @@ import com.bandlink.screens.CreateEventScreen
 import com.bandlink.screens.HomeScreen
 import com.bandlink.screens.RegisterScreen
 import com.bandlink.screens.ViewBandsScreen
+import com.bandlink.screens.ViewEventsScreen
 import com.bandlink.ui.theme.BandLinkTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BandLinkTheme {
-                CreateEventScreen()
+                ViewEventsScreen()
             }
 
         }
