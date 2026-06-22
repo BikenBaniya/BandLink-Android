@@ -15,11 +15,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.bandlink.R
 import com.bandlink.firebase.FirebaseRepository
 
+
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavController) {
 
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -129,6 +131,16 @@ fun RegisterScreen() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
+                                    if (success) {
+
+                                        navController.navigate("home") {
+                                            popUpTo("register") {
+                                                inclusive = true
+                                            }
+                                        }
+
+                                    }
+
                                 }
 
                             } else {
@@ -153,10 +165,13 @@ fun RegisterScreen() {
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    Text(
-                        text = "Already have an account? Login",
-                        color = Color.LightGray
-                    )
+                    TextButton(
+                        onClick = {
+                            navController.navigate("login")
+                        }
+                    ) {
+                        Text("Already have an account? Login")
+                    }
                 }
             }
         }
