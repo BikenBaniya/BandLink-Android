@@ -3,7 +3,7 @@ package com.bandlink.firebase
 import com.bandlink.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-
+import com.bandlink.models.Band
 class FirebaseRepository {
 
     private val auth = FirebaseAuth.getInstance()
@@ -65,6 +65,36 @@ class FirebaseRepository {
                         task.exception?.message ?: "Login Failed"
                     )
                 }
+            }
+    }
+    fun createBand(
+        bandName: String,
+        genre: String,
+        location: String,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        val bandId = FirebaseDatabase.getInstance()
+            .getReference("bands")
+            .push()
+            .key ?: ""
+
+        val band = Band(
+            bandId = bandId,
+            bandName = bandName,
+            genre = genre,
+            location = location
+        )
+
+        FirebaseDatabase.getInstance()
+            .getReference("bands")
+            .child(bandId)
+            .setValue(band)
+            .addOnSuccessListener {
+                onResult(true, "Band Created")
+            }
+            .addOnFailureListener {
+                onResult(false, it.message ?: "Error")
             }
     }
 }
