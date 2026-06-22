@@ -70,7 +70,28 @@ fun ViewEventsScreen() {
                     Text(text = event.venue)
                     Text(text = event.date)
                     Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = {
 
+                            val updatedEvent = event.copy(
+                                venue = "Updated Venue"
+                            )
+
+                            firebaseRepository.updateEvent(
+                                updatedEvent
+                            ) { success, message ->
+
+                                Toast.makeText(
+                                    context,
+                                    message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    ) {
+                        Text("Edit")
+                    }
                     Button(
                         onClick = {
 

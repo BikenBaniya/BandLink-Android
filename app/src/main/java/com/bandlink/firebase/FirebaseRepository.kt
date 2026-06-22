@@ -178,4 +178,20 @@ class FirebaseRepository {
                 onResult(false, it.message ?: "Delete Failed")
             }
     }
+    fun updateEvent(
+        event: Event,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        FirebaseDatabase.getInstance()
+            .getReference("events")
+            .child(event.eventId)
+            .setValue(event)
+            .addOnSuccessListener {
+                onResult(true, "Event Updated")
+            }
+            .addOnFailureListener {
+                onResult(false, it.message ?: "Update Failed")
+            }
+    }
 }
