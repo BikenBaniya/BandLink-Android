@@ -97,4 +97,20 @@ class FirebaseRepository {
                 onResult(false, it.message ?: "Error")
             }
     }
+    fun deleteBand(
+        bandId: String,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        FirebaseDatabase.getInstance()
+            .getReference("bands")
+            .child(bandId)
+            .removeValue()
+            .addOnSuccessListener {
+                onResult(true, "Band Deleted")
+            }
+            .addOnFailureListener {
+                onResult(false, it.message ?: "Delete Failed")
+            }
+    }
 }

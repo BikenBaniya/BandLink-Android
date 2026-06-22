@@ -10,13 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bandlink.models.Band
 import com.google.firebase.database.*
-
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.bandlink.firebase.FirebaseRepository
+import androidx.compose.material3.Button
 @Composable
 fun ViewBandsScreen() {
 
     var bandList by remember {
         mutableStateOf(listOf<Band>())
     }
+    val context = LocalContext.current
+    val firebaseRepository = FirebaseRepository()
 
     LaunchedEffect(Unit) {
 
@@ -63,6 +68,25 @@ fun ViewBandsScreen() {
                     Text(text = band.bandName)
                     Text(text = band.genre)
                     Text(text = band.location)
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(
+                        onClick = {
+
+                            firebaseRepository.deleteBand(
+                                band.bandId
+                            ) { success, message ->
+
+                                Toast.makeText(
+                                    context,
+                                    message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    ) {
+                        Text("Delete")
+                    }
                 }
             }
         }
