@@ -48,4 +48,23 @@ class FirebaseRepository {
                 }
             }
     }
+    fun loginUser(
+        email: String,
+        password: String,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+
+                if (task.isSuccessful) {
+                    onResult(true, "Login Successful")
+                } else {
+                    onResult(
+                        false,
+                        task.exception?.message ?: "Login Failed"
+                    )
+                }
+            }
+    }
 }

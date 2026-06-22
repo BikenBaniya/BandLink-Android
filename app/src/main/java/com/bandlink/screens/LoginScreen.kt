@@ -14,12 +14,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bandlink.R
-
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.bandlink.firebase.FirebaseRepository
 @Composable
 fun LoginScreen() {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val firebaseRepository = FirebaseRepository()
 
     Box(
         modifier = Modifier
@@ -101,7 +105,33 @@ fun LoginScreen() {
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
-                        onClick = { },
+                        onClick = {
+
+                            if (email.isNotEmpty() && password.isNotEmpty()) {
+
+                                firebaseRepository.loginUser(
+                                    email = email,
+                                    password = password
+                                ) { success, message ->
+
+                                    Toast.makeText(
+                                        context,
+                                        message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                }
+
+                            } else {
+
+                                Toast.makeText(
+                                    context,
+                                    "Fill all fields",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
