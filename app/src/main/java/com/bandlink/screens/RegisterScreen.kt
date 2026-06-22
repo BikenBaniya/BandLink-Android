@@ -118,6 +118,7 @@ fun RegisterScreen() {
                             if (email.isNotEmpty() && password.isNotEmpty()) {
 
                                 firebaseRepository.registerUser(
+                                    name = name,
                                     email = email,
                                     password = password
                                 ) { success, message ->
