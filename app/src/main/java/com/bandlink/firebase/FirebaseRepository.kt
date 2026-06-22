@@ -162,4 +162,20 @@ class FirebaseRepository {
                 onResult(false, it.message ?: "Error")
             }
     }
+    fun deleteEvent(
+        eventId: String,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        FirebaseDatabase.getInstance()
+            .getReference("events")
+            .child(eventId)
+            .removeValue()
+            .addOnSuccessListener {
+                onResult(true, "Event Deleted")
+            }
+            .addOnFailureListener {
+                onResult(false, it.message ?: "Delete Failed")
+            }
+    }
 }

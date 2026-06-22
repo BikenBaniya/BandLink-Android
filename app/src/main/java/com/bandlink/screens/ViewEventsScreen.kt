@@ -10,6 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bandlink.models.Event
 import com.google.firebase.database.*
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.bandlink.firebase.FirebaseRepository
+import androidx.compose.material3.Button
 
 @Composable
 fun ViewEventsScreen() {
@@ -17,6 +21,8 @@ fun ViewEventsScreen() {
     var eventList by remember {
         mutableStateOf(listOf<Event>())
     }
+    val context = LocalContext.current
+    val firebaseRepository = FirebaseRepository()
 
     LaunchedEffect(Unit) {
 
@@ -63,6 +69,25 @@ fun ViewEventsScreen() {
                     Text(text = event.eventName)
                     Text(text = event.venue)
                     Text(text = event.date)
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(
+                        onClick = {
+
+                            firebaseRepository.deleteEvent(
+                                event.eventId
+                            ) { success, message ->
+
+                                Toast.makeText(
+                                    context,
+                                    message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    ) {
+                        Text("Delete")
+                    }
                 }
             }
         }
