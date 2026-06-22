@@ -4,6 +4,9 @@ import com.bandlink.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.bandlink.models.Band
+import com.bandlink.models.Event
+
+
 class FirebaseRepository {
 
     private val auth = FirebaseAuth.getInstance()
@@ -127,6 +130,36 @@ class FirebaseRepository {
             }
             .addOnFailureListener {
                 onResult(false, it.message ?: "Update Failed")
+            }
+    }
+    fun createEvent(
+        eventName: String,
+        venue: String,
+        date: String,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        val eventId = FirebaseDatabase.getInstance()
+            .getReference("events")
+            .push()
+            .key ?: ""
+
+        val event = Event(
+            eventId = eventId,
+            eventName = eventName,
+            venue = venue,
+            date = date
+        )
+
+        FirebaseDatabase.getInstance()
+            .getReference("events")
+            .child(eventId)
+            .setValue(event)
+            .addOnSuccessListener {
+                onResult(true, "Event Created")
+            }
+            .addOnFailureListener {
+                onResult(false, it.message ?: "Error")
             }
     }
 }

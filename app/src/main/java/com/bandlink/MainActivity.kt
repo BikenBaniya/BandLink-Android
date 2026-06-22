@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.bandlink.screens.CreateBandScreen
+import com.bandlink.screens.CreateEventScreen
 import com.bandlink.screens.HomeScreen
 import com.bandlink.screens.RegisterScreen
 import com.bandlink.screens.ViewBandsScreen
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BandLinkTheme {
-                ViewBandsScreen()
+                CreateEventScreen()
             }
 
         }
