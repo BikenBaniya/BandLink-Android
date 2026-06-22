@@ -1,25 +1,30 @@
 package com.bandlink.screens
 
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.bandlink.firebase.FirebaseRepository
 import com.bandlink.models.Band
 import com.google.firebase.database.*
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
-import com.bandlink.firebase.FirebaseRepository
-import androidx.compose.material3.Button
-@Composable
-fun ViewBandsScreen() {
 
+@Composable
+fun ViewBandsScreen(navController: NavController) {
     var bandList by remember {
         mutableStateOf(listOf<Band>())
     }
+
     val context = LocalContext.current
     val firebaseRepository = FirebaseRepository()
 
@@ -49,68 +54,106 @@ fun ViewBandsScreen() {
             })
     }
 
-    LazyColumn(
-        modifier = Modifier.padding(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .padding(16.dp)
     ) {
 
-        items(bandList) { band ->
+        Text(
+            text = "🎸 Bands",
+            color = Color(0xFF9C4DFF),
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold
+        )
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 12.dp)
-            ) {
+        Spacer(modifier = Modifier.height(16.dp))
 
-                Column(
-                    modifier = Modifier.padding(16.dp)
+        LazyColumn {
+
+            items(bandList) { band ->
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF1A1A1A)
+                    )
                 ) {
 
-                    Text(text = band.bandName)
-                    Text(text = band.genre)
-                    Text(text = band.location)
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Column(
+                        modifier = Modifier.padding(20.dp)
+                    ) {
 
-                    Button(
-                        onClick = {
+                        Text(
+                            text = "🎸 ${band.bandName}",
+                            color = Color.White,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold
+                        )
 
-                            firebaseRepository.deleteBand(
-                                band.bandId
-                            ) { success, message ->
+                        Spacer(modifier = Modifier.height(10.dp))
 
-                                Toast.makeText(
-                                    context,
-                                    message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                        Text(
+                            text = "🎵 ${band.genre}",
+                            color = Color.LightGray
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "📍 ${band.location}",
+                            color = Color.LightGray
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+
+                            Button(
+                                onClick = {
+
+
+                                    navController.navigate(
+                                        "updateBand/${band.bandId}"
+                                    )
+
+                                }
+
+
+                            ) {
+                            Text("Edit")
+                        }
+
+
+                            Button(
+                                onClick = {
+
+                                    firebaseRepository.deleteBand(
+                                        band.bandId
+                                    ) { success, message ->
+
+                                        Toast.makeText(
+                                            context,
+                                            message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            ) {
+                                Text("Delete")
                             }
                         }
-                    ) {
-                        Text("Delete")
-                    }
-                    Button(
-                        onClick = {
-
-                            val updatedBand = band.copy(
-                                genre = "Updated Rock"
-                            )
-
-                            firebaseRepository.updateBand(
-                                updatedBand
-                            ) { success, message ->
-
-                                Toast.makeText(
-                                    context,
-                                    message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                        }
-                    ) {
-                        Text("Edit")
                     }
                 }
             }
         }
     }
+
+
 }

@@ -43,7 +43,17 @@ fun AppNavigation() {
         }
 
         composable("viewBands") {
-            ViewBandsScreen()
+            ViewBandsScreen(navController)
+        }
+        composable("updateBand/{bandId}") { backStackEntry ->
+
+            val bandId =
+                backStackEntry.arguments?.getString("bandId") ?: ""
+
+            UpdateBandScreen(
+                navController = navController,
+                bandId  = bandId
+            )
         }
 
         composable("createEvent") {
@@ -53,6 +63,7 @@ fun AppNavigation() {
         composable("viewEvents") {
             ViewEventsScreen()
         }
+
 
     }
 }
