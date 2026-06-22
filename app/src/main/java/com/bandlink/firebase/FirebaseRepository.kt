@@ -113,4 +113,20 @@ class FirebaseRepository {
                 onResult(false, it.message ?: "Delete Failed")
             }
     }
+    fun updateBand(
+        band: Band,
+        onResult: (Boolean, String) -> Unit
+    ) {
+
+        FirebaseDatabase.getInstance()
+            .getReference("bands")
+            .child(band.bandId)
+            .setValue(band)
+            .addOnSuccessListener {
+                onResult(true, "Band Updated")
+            }
+            .addOnFailureListener {
+                onResult(false, it.message ?: "Update Failed")
+            }
+    }
 }

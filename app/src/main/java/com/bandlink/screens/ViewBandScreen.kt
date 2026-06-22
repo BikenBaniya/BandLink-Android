@@ -87,6 +87,28 @@ fun ViewBandsScreen() {
                     ) {
                         Text("Delete")
                     }
+                    Button(
+                        onClick = {
+
+                            val updatedBand = band.copy(
+                                genre = "Updated Rock"
+                            )
+
+                            firebaseRepository.updateBand(
+                                updatedBand
+                            ) { success, message ->
+
+                                Toast.makeText(
+                                    context,
+                                    message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    ) {
+                        Text("Edit")
+                    }
                 }
             }
         }
