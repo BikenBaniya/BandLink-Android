@@ -12,6 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
+
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -95,7 +97,15 @@ fun HomeScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    navController.navigate("login")
+
+                    FirebaseAuth.getInstance().signOut()
+
+                    navController.navigate("login") {
+                        popUpTo("home") {
+                            inclusive = true
+                        }
+                    }
+
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp)
