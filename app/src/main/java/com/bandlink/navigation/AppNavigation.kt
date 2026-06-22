@@ -20,8 +20,11 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = "splash"
     ) {
+        composable("splash") {
+            SplashScreen(navController)
+        }
 
         composable("login") {
             LoginScreen(navController)
@@ -50,5 +53,6 @@ fun AppNavigation() {
         composable("viewEvents") {
             ViewEventsScreen()
         }
+
     }
 }
