@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "934520776102",
+    "firebase_url": "https://band-link-default-rtdb.firebaseio.com",
+    "project_id": "band-link",
+    "storage_bucket": "band-link.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934520776102:android:fc45cf73441a07e2225b67",
+        "android_client_info": {
+          "package_name": "com.bandlink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE1YLRiA8qSYTk21OIZ8HzuAXXG3k854E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
