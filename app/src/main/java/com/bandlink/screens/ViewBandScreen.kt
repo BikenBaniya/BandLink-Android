@@ -61,13 +61,26 @@ fun ViewBandsScreen(navController: NavController) {
             .padding(16.dp)
     ) {
 
-        Text(
-            text = "🎸 Bands",
-            color = Color(0xFF9C4DFF),
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
 
+            TextButton(
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Text("Back")
+            }
+
+            Text(
+                text = "🎸 Bands",
+                color = Color(0xFF9C4DFF),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn {

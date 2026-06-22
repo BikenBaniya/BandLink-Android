@@ -68,6 +68,13 @@ fun UpdateBandScreen(
         ) {
 
             Spacer(modifier = Modifier.height(40.dp))
+            TextButton(
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Text("Back")
+            }
 
             Text(
                 text = "✏️ Update Band",
