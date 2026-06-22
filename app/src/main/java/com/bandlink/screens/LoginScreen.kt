@@ -1,5 +1,6 @@
 package com.bandlink.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,19 +10,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.bandlink.R
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import com.bandlink.firebase.FirebaseRepository
+
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController: NavController
+) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     val context = LocalContext.current
     val firebaseRepository = FirebaseRepository()
 
@@ -120,6 +125,13 @@ fun LoginScreen() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
+                                    if (success) {
+                                        navController.navigate("home") {
+                                            popUpTo("login") {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
                                 }
 
                             } else {
@@ -129,7 +141,6 @@ fun LoginScreen() {
                                     "Fill all fields",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
                             }
                         },
                         modifier = Modifier
@@ -147,10 +158,15 @@ fun LoginScreen() {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        text = "Don't have an account? Sign Up",
-                        color = Color.LightGray
-                    )
+                    TextButton(
+                        onClick = {
+                            navController.navigate("register")
+                        }
+                    ) {
+                        Text(
+                            text = "Don't have an account? Sign Up"
+                        )
+                    }
                 }
             }
         }

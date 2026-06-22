@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.bandlink.navigation.AppNavigation
 import com.bandlink.screens.CreateBandScreen
 import com.bandlink.screens.CreateEventScreen
 import com.bandlink.screens.HomeScreen
@@ -18,6 +19,7 @@ import com.bandlink.screens.RegisterScreen
 import com.bandlink.screens.ViewBandsScreen
 import com.bandlink.screens.ViewEventsScreen
 import com.bandlink.ui.theme.BandLinkTheme
+import com.bandlink.navigation.AppNavigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BandLinkTheme {
-                ViewEventsScreen()
+                AppNavigation()
             }
 
         }
